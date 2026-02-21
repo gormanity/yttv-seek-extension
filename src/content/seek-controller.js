@@ -56,42 +56,44 @@
 
   // ── OSD (on-screen display) ───────────────────────────────────────────────
 
-  var OSD_HIDE_DELAY_MS = 700;
+  // Arrow-only path from YouTube TV's seek icon (digit subpaths omitted so
+  // we can overlay the actual configured seek amount as a label).
+  var ARROW_PATH = 'M4.293.293a1 1 0 011.414 1.414L4.414 3H13l.496.013A10 10 0 0113 23'
+    + 'a1 1 0 010-2 8.001 8.001 0 00.396-15.99L13 5H4.414l1.293 1.293a1 1 0 01-1.414'
+    + ' 1.414L.586 4 4.293.293Z';
 
-  function createOsdEl(direction) {
+  var osdEl    = null;
+  var osdLabel = null;
+
+  function createOsdEl() {
     var el = document.createElement('div');
-    el.className = 'yttv-seek-osd yttv-seek-osd--' + direction;
+    el.className = 'yttv-seek-osd';
     el.innerHTML =
-      '<div class="yttv-seek-osd__icon">' + (direction === 'back' ? '◀◀' : '▶▶') + '</div>' +
-      '<div class="yttv-seek-osd__label"></div>';
+      '<div class="yttv-seek-osd__content">'
+      + '<div class="yttv-seek-osd__ring">'
+      + '<svg viewBox="0 0 24 24" aria-hidden="true">'
+      + '<path d="' + ARROW_PATH + '"/>'
+      + '</svg>'
+      + '<span class="yttv-seek-osd__label"></span>'
+      + '</div>'
+      + '</div>';
     document.body.appendChild(el);
     return el;
   }
 
-  var osdBack    = null;
-  var osdForward = null;
-  var osdTimer   = null;
-
   function showOsd(direction, seconds) {
-    // Lazily create elements so we don't touch the DOM until first use.
-    if (!osdBack)    osdBack    = createOsdEl('back');
-    if (!osdForward) osdForward = createOsdEl('forward');
+    if (!osdEl) {
+      osdEl    = createOsdEl();
+      osdLabel = osdEl.querySelector('.yttv-seek-osd__label');
+    }
 
-    var active   = direction === 'back' ? osdBack : osdForward;
-    var inactive = direction === 'back' ? osdForward : osdBack;
+    osdLabel.textContent = formatSeekLabel(seconds);
+    osdEl.classList.toggle('yttv-seek-osd--forward', direction === 'forward');
 
-    active.querySelector('.yttv-seek-osd__label').textContent = formatSeekLabel(seconds);
-    inactive.classList.remove('yttv-seek-osd--visible');
-
-    // Remove, force reflow, re-add — restarts the fade-in transition on every press.
-    active.classList.remove('yttv-seek-osd--visible');
-    void active.offsetWidth;
-    active.classList.add('yttv-seek-osd--visible');
-
-    clearTimeout(osdTimer);
-    osdTimer = setTimeout(function () {
-      active.classList.remove('yttv-seek-osd--visible');
-    }, OSD_HIDE_DELAY_MS);
+    // Restart the keyframe animation on every press via forced reflow.
+    osdEl.classList.remove('yttv-seek-osd--visible');
+    void osdEl.offsetWidth;
+    osdEl.classList.add('yttv-seek-osd--visible');
   }
 
   // ── Storage shim ──────────────────────────────────────────────────────────
