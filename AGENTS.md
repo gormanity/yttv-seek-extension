@@ -70,6 +70,7 @@ This repo uses `jj` with a colocated git backend.
 
 ## Pitfalls
 
+- **YouTube TV has multiple `<video>` elements.** `document.querySelector('video')` returns the wrong one. Always select by priority: playing+ready > ready-with-duration > first. See `seek-controller.js` for the canonical selector.
 - **Do not use dynamic `import()` in content scripts.** If the import fails (e.g. CORS, CSP, or extension URL edge cases), the async IIFE rejects silently and no event listener is ever attached — seeking appears completely broken with no visible error. Keep `seek-controller.js` as a self-contained IIFE with logic inlined. `seek-logic.js` is the ES-module source of truth for tests only.
 - **Do not use ES module `export` in files loaded as content scripts.** Classic content scripts don't support top-level `export`; it causes a SyntaxError.
 
