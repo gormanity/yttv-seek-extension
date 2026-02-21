@@ -141,10 +141,24 @@ function initSaveButton() {
 }
 
 /**
+ * Wire up the reset button to restore defaults without saving.
+ */
+function initResetButton() {
+  document.getElementById('reset').addEventListener('click', () => {
+    document.getElementById('seek-amount').value = DEFAULT_SETTINGS.seekAmount;
+    document.getElementById('back-key').value    = DEFAULT_SETTINGS.backKey;
+    document.getElementById('forward-key').value = DEFAULT_SETTINGS.forwardKey;
+    document.getElementById('error').textContent  = '';
+    document.getElementById('status').textContent = '';
+  });
+}
+
+/**
  * Initialize the options page. Called from options.html.
  */
 export async function initOptionsPage() {
   await loadSettings();
   initKeyInputs();
   initSaveButton();
+  initResetButton();
 }

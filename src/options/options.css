@@ -71,5 +71,16 @@ button:hover {
   background: #0051a8;
 }
 
+button#reset {
+  background: transparent;
+  color: #555;
+  border: 1px solid #ccc;
+}
+
+button#reset:hover {
+  background: #f5f5f5;
+  color: #1a1a1a;
+}
+
 .status { color: #2a7a2a; font-size: 0.9rem; }
 .error  { color: #c0392b; font-size: 0.9rem; }
