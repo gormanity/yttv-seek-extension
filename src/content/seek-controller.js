@@ -49,6 +49,47 @@
     video.currentTime = Math.max(0, video.currentTime + seconds);
   }
 
+  function formatSeekLabel(seconds) {
+    var n = Math.abs(seconds);
+    return n + 's';
+  }
+
+  // ── OSD (on-screen display) ───────────────────────────────────────────────
+
+  var OSD_HIDE_DELAY_MS = 700;
+
+  function createOsdEl(direction) {
+    var el = document.createElement('div');
+    el.className = 'yttv-seek-osd yttv-seek-osd--' + direction;
+    el.innerHTML =
+      '<div class="yttv-seek-osd__icon">' + (direction === 'back' ? '◀◀' : '▶▶') + '</div>' +
+      '<div class="yttv-seek-osd__label"></div>';
+    document.body.appendChild(el);
+    return el;
+  }
+
+  var osdBack    = null;
+  var osdForward = null;
+  var osdTimer   = null;
+
+  function showOsd(direction, seconds) {
+    // Lazily create elements so we don't touch the DOM until first use.
+    if (!osdBack)    osdBack    = createOsdEl('back');
+    if (!osdForward) osdForward = createOsdEl('forward');
+
+    var active   = direction === 'back' ? osdBack : osdForward;
+    var inactive = direction === 'back' ? osdForward : osdBack;
+
+    active.querySelector('.yttv-seek-osd__label').textContent = formatSeekLabel(seconds);
+    inactive.classList.remove('yttv-seek-osd--visible');
+    active.classList.add('yttv-seek-osd--visible');
+
+    clearTimeout(osdTimer);
+    osdTimer = setTimeout(function () {
+      active.classList.remove('yttv-seek-osd--visible');
+    }, OSD_HIDE_DELAY_MS);
+  }
+
   // ── Storage shim ──────────────────────────────────────────────────────────
   var storageSync = (typeof browser !== 'undefined' ? browser : chrome).storage.sync;
 
@@ -82,7 +123,9 @@
     event.preventDefault();
     event.stopImmediatePropagation();
 
+    var direction = isForward ? 'forward' : 'back';
     applySeek(video, isForward ? settings.seekAmount : -settings.seekAmount);
+    showOsd(direction, settings.seekAmount);
   }, /* capture */ true);
 
   // ── Settings live-reload ──────────────────────────────────────────────────
