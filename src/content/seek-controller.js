@@ -49,6 +49,8 @@
     video.currentTime = Math.max(0, video.currentTime + seconds);
   }
 
+  console.log('[YTTV Seek] content script loaded');
+
   // ── Storage shim ──────────────────────────────────────────────────────────
   var storageSync = (typeof browser !== 'undefined' ? browser : chrome).storage.sync;
 
@@ -57,6 +59,7 @@
 
   storageSync.get(DEFAULT_SETTINGS, function (stored) {
     Object.assign(settings, stored);
+    console.log('[YTTV Seek] settings loaded:', settings);
   });
 
   // ── Key handler ───────────────────────────────────────────────────────────
@@ -71,13 +74,20 @@
     var isForward = matchesKey(event, settings.forwardKey);
     if (!isBack && !isForward) return;
 
+    console.log('[YTTV Seek] key matched:', event.key, '| shift:', event.shiftKey);
+
     var video = document.querySelector('video');
-    if (!video) return;
+    if (!video) {
+      console.warn('[YTTV Seek] no <video> element found');
+      return;
+    }
 
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    applySeek(video, isForward ? settings.seekAmount : -settings.seekAmount);
+    var delta = isForward ? settings.seekAmount : -settings.seekAmount;
+    console.log('[YTTV Seek] seeking', delta, 's from', video.currentTime);
+    applySeek(video, delta);
   }, /* capture */ true);
 
   // ── Settings live-reload ──────────────────────────────────────────────────
