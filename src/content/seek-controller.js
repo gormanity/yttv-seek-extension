@@ -76,7 +76,22 @@
 
     console.log('[YTTV Seek] key matched:', event.key, '| shift:', event.shiftKey);
 
-    var video = document.querySelector('video');
+    var videos = Array.from(document.querySelectorAll('video'));
+    console.log('[YTTV Seek] video elements found:', videos.length,
+      videos.map(function(v, i) {
+        return i + ': src=' + (v.src || v.currentSrc || 'none').slice(0,40)
+          + ' readyState=' + v.readyState
+          + ' paused=' + v.paused
+          + ' currentTime=' + v.currentTime
+          + ' duration=' + v.duration;
+      })
+    );
+
+    // Pick the best candidate: playing > has-duration > first
+    var video = videos.find(function(v) { return !v.paused && v.readyState >= 2; })
+             || videos.find(function(v) { return v.readyState >= 2 && v.duration > 0; })
+             || videos[0];
+
     if (!video) {
       console.warn('[YTTV Seek] no <video> element found');
       return;
@@ -86,8 +101,15 @@
     event.stopImmediatePropagation();
 
     var delta = isForward ? settings.seekAmount : -settings.seekAmount;
-    console.log('[YTTV Seek] seeking', delta, 's from', video.currentTime);
+    var before = video.currentTime;
     applySeek(video, delta);
+    var after = video.currentTime;
+    console.log('[YTTV Seek] sought', delta, 's:', before, '->', after);
+
+    // Check if YouTube TV reset it
+    setTimeout(function() {
+      console.log('[YTTV Seek] currentTime 200ms later:', video.currentTime);
+    }, 200);
   }, /* capture */ true);
 
   // ── Settings live-reload ──────────────────────────────────────────────────
