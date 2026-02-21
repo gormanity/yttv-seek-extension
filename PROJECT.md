@@ -76,11 +76,11 @@ npm test
 **Chrome:**
 1. Navigate to `chrome://extensions`
 2. Enable "Developer mode"
-3. Click "Load unpacked" → select this repo root
+3. Click "Load unpacked" → select the repo root (where `manifest.json` lives)
 
 **Firefox:**
 1. Navigate to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on" → select `manifest.json`
+2. Click "Load Temporary Add-on" → select `manifest.json` in the repo root
 
 ### Pack for Distribution
 

@@ -21,6 +21,7 @@ const dist  = join(root, 'dist');
 if (!existsSync(dist)) mkdirSync(dist);
 
 const include = [
+  'manifest.json',
   'src/',
   'icons/',
   'LICENSE',
