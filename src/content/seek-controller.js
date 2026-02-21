@@ -82,6 +82,10 @@
 
     active.querySelector('.yttv-seek-osd__label').textContent = formatSeekLabel(seconds);
     inactive.classList.remove('yttv-seek-osd--visible');
+
+    // Remove, force reflow, re-add — restarts the fade-in transition on every press.
+    active.classList.remove('yttv-seek-osd--visible');
+    void active.offsetWidth;
     active.classList.add('yttv-seek-osd--visible');
 
     clearTimeout(osdTimer);
