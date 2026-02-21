@@ -17,12 +17,12 @@
 
     <div class="field">
       <label for="back-key">Seek backward key</label>
-      <input id="back-key" type="text" readonly placeholder="Click then press a key…" />
+      <input id="back-key" type="text" placeholder="Click then press a key…" />
     </div>
 
     <div class="field">
       <label for="forward-key">Seek forward key</label>
-      <input id="forward-key" type="text" readonly placeholder="Click then press a key…" />
+      <input id="forward-key" type="text" placeholder="Click then press a key…" />
     </div>
 
     <div class="actions">
@@ -35,7 +35,7 @@
 
   <script type="module">
     import { initOptionsPage } from './options.js';
-    initOptionsPage();
+    initOptionsPage().catch(console.error);
   </script>
 </body>
 </html>

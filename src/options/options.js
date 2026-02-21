@@ -61,7 +61,12 @@ function getStorage() {
  * Load settings from storage and populate the form.
  */
 async function loadSettings() {
-  const settings = await getStorage().get(DEFAULT_SETTINGS);
+  let settings;
+  try {
+    settings = await getStorage().get(DEFAULT_SETTINGS);
+  } catch (_) {
+    settings = { ...DEFAULT_SETTINGS };
+  }
   document.getElementById('seek-amount').value = settings.seekAmount;
   document.getElementById('back-key').value    = settings.backKey;
   document.getElementById('forward-key').value = settings.forwardKey;
@@ -99,6 +104,9 @@ function initKeyInputs() {
       input.value = formatKeyString(event);
       input.blur();
     });
+
+    // Prevent pasting raw text into key capture fields
+    input.addEventListener('paste', (event) => event.preventDefault());
   }
 }
 
