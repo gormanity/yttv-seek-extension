@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseKey, matchesKey, applySeek, DEFAULT_SETTINGS } from '../src/content/seek-logic.js';
+import { parseKey, matchesKey, applySeek, formatSeekLabel, DEFAULT_SETTINGS } from '../src/content/seek-logic.js';
 
 describe('parseKey', () => {
   it('parses a bare key with no modifiers', () => {
@@ -98,6 +98,23 @@ describe('applySeek', () => {
     video.currentTime = 100;
     applySeek(video, 30);
     expect(video.currentTime).toBe(130);
+  });
+});
+
+describe('formatSeekLabel', () => {
+  it('formats whole seconds without a decimal', () => {
+    expect(formatSeekLabel(5)).toBe('5s');
+    expect(formatSeekLabel(15)).toBe('15s');
+    expect(formatSeekLabel(30)).toBe('30s');
+  });
+
+  it('formats fractional seconds with the decimal preserved', () => {
+    expect(formatSeekLabel(2.5)).toBe('2.5s');
+    expect(formatSeekLabel(0.5)).toBe('0.5s');
+  });
+
+  it('always produces a positive label regardless of sign', () => {
+    expect(formatSeekLabel(-5)).toBe('5s');
   });
 });
 

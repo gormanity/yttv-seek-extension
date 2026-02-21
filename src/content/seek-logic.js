@@ -72,6 +72,18 @@ export function matchesKey(event, keyString) {
 }
 
 /**
+ * Format a seek amount as a display label, e.g. 5 → "5s", 2.5 → "2.5s".
+ * Always returns a positive label; direction is conveyed by the OSD layout.
+ *
+ * @param {number} seconds
+ * @returns {string}
+ */
+export function formatSeekLabel(seconds) {
+  var n = Math.abs(seconds);
+  return (Number.isInteger(n) ? n : n) + 's';
+}
+
+/**
  * Seek a video element by `seconds` (positive = forward, negative = backward).
  * Clamps to 0; does not clamp at the upper end (browser handles that).
  *
