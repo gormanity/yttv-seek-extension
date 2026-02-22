@@ -1,4 +1,4 @@
-# YTTV Seek Extension
+# Smart Seek for YouTube TV
 
 A Chrome and Firefox browser extension that adds configurable seek controls to YouTube TV.
 
@@ -27,30 +27,42 @@ This extension injects a keyboard handler into YouTube TV that:
 ```
 src/
   content/
-    seek-controller.js    # Injected into tv.youtube.com; handles key events & video seeking
-    seek-controller.css   # Optional OSD (on-screen display) styles
+    seek-logic.ts         # Pure functions: parseKey, matchesKey, applySeek, DEFAULT_SETTINGS
+    seek-controller.ts    # Content script: key handler + OSD; esbuild bundles as IIFE
+    seek-controller.css   # OSD indicator styles
   options/
     options.html          # Settings UI
-    options.js            # Settings logic
+    options.ts            # Settings page logic (pure exports + DOM init)
     options.css
+    init.ts               # Module entry point (calls initOptionsPage)
+  popup/
+    popup.html            # Toolbar popup
+    popup.ts              # Popup logic
+    popup.css
   background/
-    service-worker.js     # Handles install defaults; minimal logic
-  manifest.json           # Shared MV3 manifest (Chrome + Firefox)
+    service-worker.ts     # Sets defaults on install; minimal logic
+  globals.d.ts            # Firefox compat: declare const browser
+manifest.json             # MV3 manifest (Chrome + Firefox); copied to dist/ at build time
+dist/                     # Build output (git-ignored); load this as the unpacked extension
+scripts/
+  build.js                # esbuild orchestrator (4 entry points + static asset copy)
+  pack.js                 # Produces yttv-seek-chrome.zip and yttv-seek-firefox.zip
 tests/
-  seek-controller.test.js
-  options.test.js
+  seek-logic.test.ts
+  seek-controller.test.ts
+  options.test.ts
+  popup.test.ts
 icons/
-  icon-16.png
-  icon-48.png
-  icon-128.png
+  icon-16.png  icon-48.png  icon-128.png
 ```
 
 ### Key Design Decisions
 
-- **No build step for extension code.** Plain ES modules loaded directly from `src/`. This keeps the extension simple and auditable.
-- **Vitest** for unit tests (runs in Node with jsdom). Only pure logic is unit-tested; DOM integration tested manually.
+- **TypeScript + esbuild.** Source is TypeScript; esbuild compiles and bundles to `dist/`. `seek-controller.ts` imports from `seek-logic.ts` — esbuild inlines it as an IIFE for use as a content script. `tsc --noEmit` is used for type-checking only.
+- **`dist/` is the self-contained extension.** `make build` copies manifest.json, icons, HTML, and CSS alongside the compiled JS. Load `dist/` as the unpacked extension in Chrome/Firefox.
+- **Vitest** for unit tests (runs in Node with jsdom). Pure logic and DOM interactions are unit-tested. 125 tests across 4 files.
 - **Single `manifest.json`** targeting both browsers. Firefox-specific fields (`browser_specific_settings`) are included but ignored by Chrome.
-- **`chrome.storage.sync`** for settings. Firefox supports this API natively via `browser.storage.sync`; the content script uses a thin compatibility shim.
+- **`chrome.storage.sync`** for settings. Firefox supports this API natively via `browser.storage.sync`; the extension uses a `typeof browser !== 'undefined' ? browser : chrome` shim.
 
 ## Development
 
@@ -73,19 +85,23 @@ npm test
 
 ### Load Extension Locally
 
+```bash
+make build   # required first — populates dist/
+```
+
 **Chrome:**
 1. Navigate to `chrome://extensions`
 2. Enable "Developer mode"
-3. Click "Load unpacked" → select the repo root (where `manifest.json` lives)
+3. Click "Load unpacked" → select the `dist/` folder
 
 **Firefox:**
 1. Navigate to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on" → select `manifest.json` in the repo root
+2. Click "Load Temporary Add-on" → select `dist/manifest.json`
 
 ### Pack for Distribution
 
 ```bash
-npm run pack        # Produces yttv-seek-chrome.zip and yttv-seek-firefox.zip
+make pack   # Produces dist/yttv-seek-chrome.zip and yttv-seek-firefox.zip
 ```
 
 ## Settings
