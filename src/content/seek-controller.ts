@@ -1,5 +1,5 @@
 /**
- * seek-controller.ts — Content script for YTTV Seek Extension.
+ * seek-controller.ts — Content script for Smart Seek for YouTube TV.
  *
  * Imports seek logic from seek-logic.ts; esbuild bundles this as an IIFE
  * for use as a content script — no more manual code duplication.

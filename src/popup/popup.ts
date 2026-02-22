@@ -1,5 +1,5 @@
 /**
- * popup.ts — Extension popup for YTTV Seek.
+ * popup.ts — Extension popup for Smart Seek for YouTube TV.
  *
  * Lets the user nudge the seek amount without opening the full options page.
  * Changes are written to storage immediately; the content script picks them

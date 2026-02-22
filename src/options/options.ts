@@ -1,7 +1,7 @@
 /**
  * options.ts
  *
- * Options page for YTTV Seek Extension.
+ * Options page for Smart Seek for YouTube TV.
  *
  * Pure exports (validateSeekAmount, formatKeyString) are used by tests.
  * initOptionsPage() wires up the DOM and is called from init.ts.

@@ -1,8 +1,8 @@
-# YTTV Seek
+# Smart Seek for YouTube TV
 
 A Chrome and Firefox extension that adds configurable seek controls to [YouTube TV](https://tv.youtube.com).
 
-YouTube TV's built-in keyboard shortcuts only jump 15 seconds at a time. YTTV Seek lets you jump by any amount you choose — 5 seconds by default.
+YouTube TV's built-in keyboard shortcuts only jump 15 seconds at a time. Smart Seek lets you jump by any amount you choose — 5 seconds by default.
 
 ---
 

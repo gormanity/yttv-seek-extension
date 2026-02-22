@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YTTV Seek",
+  "name": "Smart Seek for YouTube TV",
   "version": "1.0.0",
   "description": "Adds configurable seek controls to YouTube TV (default: 5-second seek via Shift+J / Shift+L).",
 

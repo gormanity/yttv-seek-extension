@@ -1,5 +1,5 @@
 /**
- * service-worker.ts — Background service worker for YTTV Seek Extension.
+ * service-worker.ts — Background service worker for Smart Seek for YouTube TV.
  *
  * Responsibilities:
  *   - Write default settings to storage on first install.
