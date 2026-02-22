@@ -50,8 +50,7 @@
   }
 
   function formatSeekLabel(seconds) {
-    var n = Math.abs(seconds);
-    return n + 's';
+    return String(Math.abs(seconds));
   }
 
   // ── OSD (on-screen display) ───────────────────────────────────────────────

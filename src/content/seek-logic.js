@@ -95,8 +95,7 @@ export function isValidKeyString(str) {
  * @returns {string}
  */
 export function formatSeekLabel(seconds) {
-  var n = Math.abs(seconds);
-  return (Number.isInteger(n) ? n : n) + 's';
+  return String(Math.abs(seconds));
 }
 
 /**

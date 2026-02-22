@@ -146,18 +146,18 @@ describe('isValidKeyString', () => {
 
 describe('formatSeekLabel', () => {
   it('formats whole seconds without a decimal', () => {
-    expect(formatSeekLabel(5)).toBe('5s');
-    expect(formatSeekLabel(15)).toBe('15s');
-    expect(formatSeekLabel(30)).toBe('30s');
+    expect(formatSeekLabel(5)).toBe('5');
+    expect(formatSeekLabel(15)).toBe('15');
+    expect(formatSeekLabel(30)).toBe('30');
   });
 
   it('formats fractional seconds with the decimal preserved', () => {
-    expect(formatSeekLabel(2.5)).toBe('2.5s');
-    expect(formatSeekLabel(0.5)).toBe('0.5s');
+    expect(formatSeekLabel(2.5)).toBe('2.5');
+    expect(formatSeekLabel(0.5)).toBe('0.5');
   });
 
   it('always produces a positive label regardless of sign', () => {
-    expect(formatSeekLabel(-5)).toBe('5s');
+    expect(formatSeekLabel(-5)).toBe('5');
   });
 });
 
