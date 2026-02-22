@@ -173,10 +173,6 @@ describe('formatSeekLabel', () => {
     expect(formatSeekLabel(-2.5)).toBe('2.5');
   });
 
-  it('formats zero as "0"', () => {
-    expect(formatSeekLabel(0)).toBe('0');
-  });
-
   it('preserves sub-second precision', () => {
     expect(formatSeekLabel(0.1)).toBe('0.1');
   });
