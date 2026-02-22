@@ -4,15 +4,20 @@
   "description": "Configurable seek controls for YouTube TV",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build.js",
+    "typecheck": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "gen-icons": "node scripts/gen-icons.js",
-    "pack": "node scripts/pack.js"
+    "pack": "npm run build && node scripts/pack.js"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.0",
-    "vitest": "^3.0.0",
-    "jsdom": "^26.0.0"
+    "@types/chrome": "^0.0.300",
+    "esbuild": "^0.25.0",
+    "jsdom": "^26.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   },
   "author": "John Gorman",
   "license": "MIT"

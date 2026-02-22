@@ -1,10 +1,17 @@
 /**
- * seek-logic.js
+ * seek-logic.ts
  *
  * Pure functions for key parsing and video seeking.
- * Imported directly by tests; loaded as a web-accessible resource and
- * dynamically imported by seek-controller.js in the extension context.
+ * Imported directly by tests; bundled into seek-controller.js via esbuild.
  */
+
+export interface ParsedKey {
+  key: string;
+  shift: boolean;
+  ctrl: boolean;
+  alt: boolean;
+  meta: boolean;
+}
 
 export const DEFAULT_SETTINGS = {
   seekAmount: 5,
@@ -22,10 +29,9 @@ export const DEFAULT_SETTINGS = {
  * For alphabetic single-char keys, when Shift is present the key is
  * normalized to uppercase, matching what the browser reports in event.key.
  *
- * @param {string} keyString e.g. "Shift+J", "Ctrl+Shift+K", "ArrowLeft"
- * @returns {{ key: string, shift: boolean, ctrl: boolean, alt: boolean, meta: boolean }}
+ * @param keyString e.g. "Shift+J", "Ctrl+Shift+K", "ArrowLeft"
  */
-export function parseKey(keyString) {
+export function parseKey(keyString: string): ParsedKey {
   const parts = keyString.split('+');
   const mods = { shift: false, ctrl: false, alt: false, meta: false };
 
@@ -55,15 +61,14 @@ export function parseKey(keyString) {
 
 /**
  * Returns true if a KeyboardEvent matches the given key string.
- *
- * @param {KeyboardEvent|{key:string,shiftKey:boolean,ctrlKey:boolean,altKey:boolean,metaKey:boolean}} event
- * @param {string} keyString
- * @returns {boolean}
  */
-export function matchesKey(event, keyString) {
+export function matchesKey(
+  event: Pick<KeyboardEvent, 'key' | 'shiftKey' | 'ctrlKey' | 'altKey' | 'metaKey'>,
+  keyString: string
+): boolean {
   const parsed = parseKey(keyString);
   return (
-    event.key      === parsed.key   &&
+    event.key        === parsed.key   &&
     !!event.shiftKey === parsed.shift &&
     !!event.ctrlKey  === parsed.ctrl  &&
     !!event.altKey   === parsed.alt   &&
@@ -76,11 +81,8 @@ const MODIFIER_KEYS = new Set(['shift', 'ctrl', 'control', 'alt', 'meta', 'cmd',
 /**
  * Returns true if `str` is a valid key binding string — i.e. it ends with a
  * non-modifier key (optionally preceded by one or more modifiers joined by +).
- *
- * @param {string} str
- * @returns {boolean}
  */
-export function isValidKeyString(str) {
+export function isValidKeyString(str: unknown): boolean {
   if (!str || typeof str !== 'string') return false;
   const parts = str.split('+');
   const key   = parts[parts.length - 1];
@@ -88,23 +90,17 @@ export function isValidKeyString(str) {
 }
 
 /**
- * Format a seek amount as a display label, e.g. 5 → "5s", 2.5 → "2.5s".
+ * Format a seek amount as a display label, e.g. 5 → "5", 2.5 → "2.5".
  * Always returns a positive label; direction is conveyed by the OSD layout.
- *
- * @param {number} seconds
- * @returns {string}
  */
-export function formatSeekLabel(seconds) {
+export function formatSeekLabel(seconds: number): string {
   return String(Math.abs(seconds));
 }
 
 /**
  * Seek a video element by `seconds` (positive = forward, negative = backward).
  * Clamps to 0; does not clamp at the upper end (browser handles that).
- *
- * @param {HTMLVideoElement} video
- * @param {number} seconds
  */
-export function applySeek(video, seconds) {
+export function applySeek(video: HTMLVideoElement, seconds: number): void {
   video.currentTime = Math.max(0, video.currentTime + seconds);
 }

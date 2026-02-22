@@ -1,5 +1,5 @@
 /**
- * popup.js — Extension popup for YTTV Seek.
+ * popup.ts — Extension popup for YTTV Seek.
  *
  * Lets the user nudge the seek amount without opening the full options page.
  * Changes are written to storage immediately; the content script picks them
@@ -14,34 +14,35 @@ const MAX  = 300;
 
 const storage = (typeof browser !== 'undefined' ? browser : chrome).storage.sync;
 
-function round1(n) {
+function round1(n: number): number {
   return Math.round(n * 10) / 10;
 }
 
 // ── Load settings ─────────────────────────────────────────────────────────────
 
-const settings = await storage.get(DEFAULT_SETTINGS);
+type Settings = typeof DEFAULT_SETTINGS;
+const settings = await storage.get(DEFAULT_SETTINGS) as Settings;
 
-const amountEl  = document.getElementById('amount-value');
-const decreaseEl = document.getElementById('decrease');
-const increaseEl = document.getElementById('increase');
+const amountEl   = document.getElementById('amount-value') as HTMLSpanElement;
+const decreaseEl = document.getElementById('decrease') as HTMLButtonElement;
+const increaseEl = document.getElementById('increase') as HTMLButtonElement;
 
-amountEl.textContent = settings.seekAmount;
-document.getElementById('back-key').textContent    = settings.backKey;
-document.getElementById('forward-key').textContent = settings.forwardKey;
+amountEl.textContent = String(settings.seekAmount);
+(document.getElementById('back-key') as HTMLSpanElement).textContent    = settings.backKey;
+(document.getElementById('forward-key') as HTMLSpanElement).textContent = settings.forwardKey;
 
 // ── Seek amount controls ──────────────────────────────────────────────────────
 
-function updateButtons() {
+function updateButtons(): void {
   decreaseEl.disabled = settings.seekAmount <= MIN;
   increaseEl.disabled = settings.seekAmount >= MAX;
 }
 
 updateButtons();
 
-async function setAmount(n) {
+async function setAmount(n: number): Promise<void> {
   settings.seekAmount  = round1(Math.max(MIN, Math.min(MAX, n)));
-  amountEl.textContent = settings.seekAmount;
+  amountEl.textContent = String(settings.seekAmount);
   updateButtons();
   await storage.set({ seekAmount: settings.seekAmount });
 }
@@ -51,6 +52,6 @@ increaseEl.addEventListener('click', () => setAmount(settings.seekAmount + STEP)
 
 // ── Open full settings ────────────────────────────────────────────────────────
 
-document.getElementById('open-settings').addEventListener('click', () => {
+document.getElementById('open-settings')!.addEventListener('click', () => {
   chrome.runtime.openOptionsPage();
 });

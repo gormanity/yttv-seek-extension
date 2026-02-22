@@ -1,9 +1,9 @@
 /**
- * service-worker.js — Background service worker for YTTV Seek Extension.
+ * service-worker.ts — Background service worker for YTTV Seek Extension.
  *
  * Responsibilities:
  *   - Write default settings to storage on first install.
- *   - Relay settings-updated messages to content scripts.
+ *   - Migrate settings on extension update.
  */
 
 import { DEFAULT_SETTINGS } from '../content/seek-logic.js';
@@ -24,7 +24,7 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (reason === 'update') {
     const existing = await chrome.storage.sync.get(null);
     // Migrate keys that are still at a previous default to the current default.
-    for (const key of ['backKey', 'forwardKey']) {
+    for (const key of ['backKey', 'forwardKey'] as const) {
       if (existing[key] === PREVIOUS_DEFAULTS[key]) {
         existing[key] = DEFAULT_SETTINGS[key];
       }
@@ -33,4 +33,3 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     await chrome.storage.sync.set({ ...DEFAULT_SETTINGS, ...existing });
   }
 });
-

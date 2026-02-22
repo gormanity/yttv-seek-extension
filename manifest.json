@@ -11,7 +11,7 @@
   },
 
   "action": {
-    "default_popup": "src/popup/popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16":  "icons/icon-16.png",
       "48":  "icons/icon-48.png",
@@ -28,21 +28,21 @@
   ],
 
   "background": {
-    "service_worker": "src/background/service-worker.js",
+    "service_worker": "background/service-worker.js",
     "type": "module"
   },
 
   "content_scripts": [
     {
       "matches": ["*://tv.youtube.com/*"],
-      "js": ["src/content/seek-controller.js"],
-      "css": ["src/content/seek-controller.css"],
+      "js": ["content/seek-controller.js"],
+      "css": ["content/seek-controller.css"],
       "run_at": "document_idle"
     }
   ],
 
   "options_ui": {
-    "page": "src/options/options.html",
+    "page": "options/options.html",
     "open_in_tab": true
   },
 

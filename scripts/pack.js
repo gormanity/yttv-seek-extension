@@ -1,7 +1,7 @@
 /**
  * pack.js — Produce distributable zip archives.
  *
- * Usage: node scripts/pack.js
+ * Usage: node scripts/pack.js  (or via `npm run pack` which runs build first)
  *
  * Outputs:
  *   dist/yttv-seek-chrome.zip   — For Chrome Web Store
@@ -15,21 +15,16 @@ import { execSync } from 'child_process';
 import { mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const root  = new URL('..', import.meta.url).pathname;
-const dist  = join(root, 'dist');
+const root = new URL('..', import.meta.url).pathname;
+const dist = join(root, 'dist');
 
 if (!existsSync(dist)) mkdirSync(dist);
 
-const include = [
-  'manifest.json',
-  'src/',
-  'icons/',
-  'LICENSE',
-].join(' ');
-
 function zip(name) {
   const out = join(dist, name);
-  execSync(`zip -r "${out}" ${include}`, { cwd: root, stdio: 'inherit' });
+  // Run from inside dist/ so archive paths are relative to the extension root,
+  // and exclude any previously-generated zip archives.
+  execSync(`zip -r "${out}" . -x "*.zip"`, { cwd: dist, stdio: 'inherit' });
   console.log(`Created ${out}`);
 }
 

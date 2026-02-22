@@ -36,7 +36,7 @@ describe('parseKey', () => {
 });
 
 describe('matchesKey', () => {
-  function fakeEvent(key, { shiftKey = false, ctrlKey = false, altKey = false, metaKey = false } = {}) {
+  function fakeEvent(key: string, { shiftKey = false, ctrlKey = false, altKey = false, metaKey = false } = {}) {
     return { key, shiftKey, ctrlKey, altKey, metaKey };
   }
 
@@ -85,28 +85,28 @@ describe('matchesKey', () => {
 
 describe('applySeek', () => {
   it('seeks forward by the given amount', () => {
-    const video = document.createElement('video');
+    const video = document.createElement('video') as HTMLVideoElement;
     video.currentTime = 10;
     applySeek(video, 5);
     expect(video.currentTime).toBe(15);
   });
 
   it('seeks backward by the given amount', () => {
-    const video = document.createElement('video');
+    const video = document.createElement('video') as HTMLVideoElement;
     video.currentTime = 10;
     applySeek(video, -5);
     expect(video.currentTime).toBe(5);
   });
 
   it('clamps to 0 when seeking would go negative', () => {
-    const video = document.createElement('video');
+    const video = document.createElement('video') as HTMLVideoElement;
     video.currentTime = 2;
     applySeek(video, -10);
     expect(video.currentTime).toBe(0);
   });
 
   it('does not clamp forward seeks', () => {
-    const video = document.createElement('video');
+    const video = document.createElement('video') as HTMLVideoElement;
     video.currentTime = 100;
     applySeek(video, 30);
     expect(video.currentTime).toBe(130);
