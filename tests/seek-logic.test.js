@@ -69,6 +69,18 @@ describe('matchesKey', () => {
     // With shift, the browser reports uppercase 'J'; bare 'j' requires no shift
     expect(matchesKey(fakeEvent('J', { shiftKey: true }), 'j')).toBe(false);
   });
+
+  it('matches Shift+ArrowLeft', () => {
+    expect(matchesKey(fakeEvent('ArrowLeft', { shiftKey: true }), 'Shift+ArrowLeft')).toBe(true);
+  });
+
+  it('matches Shift+ArrowRight', () => {
+    expect(matchesKey(fakeEvent('ArrowRight', { shiftKey: true }), 'Shift+ArrowRight')).toBe(true);
+  });
+
+  it('does not match Shift+ArrowLeft without shift', () => {
+    expect(matchesKey(fakeEvent('ArrowLeft'), 'Shift+ArrowLeft')).toBe(false);
+  });
 });
 
 describe('applySeek', () => {

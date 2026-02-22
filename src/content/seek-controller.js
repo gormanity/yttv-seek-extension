@@ -95,6 +95,10 @@
     osdEl.classList.add('yttv-seek-osd--visible');
   }
 
+  // ── Hardcoded bindings (always active, regardless of user settings) ───────
+  var HARDCODED_BACK_KEY    = 'Shift+ArrowLeft';
+  var HARDCODED_FORWARD_KEY = 'Shift+ArrowRight';
+
   // ── Storage shim ──────────────────────────────────────────────────────────
   var storageSync = (typeof browser !== 'undefined' ? browser : chrome).storage.sync;
 
@@ -113,8 +117,8 @@
       return;
     }
 
-    var isBack    = matchesKey(event, settings.backKey);
-    var isForward = matchesKey(event, settings.forwardKey);
+    var isBack    = matchesKey(event, settings.backKey)    || matchesKey(event, HARDCODED_BACK_KEY);
+    var isForward = matchesKey(event, settings.forwardKey) || matchesKey(event, HARDCODED_FORWARD_KEY);
     if (!isBack && !isForward) return;
 
     // Pick the best candidate: playing > ready-with-duration > first
