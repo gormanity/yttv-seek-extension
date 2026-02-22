@@ -11,8 +11,8 @@ import { DEFAULT_SETTINGS } from '../content/seek-logic.js';
 // Previous default key bindings — used to migrate users who still have the
 // old values stored and haven't explicitly customised them.
 const PREVIOUS_DEFAULTS = {
-  backKey:    'Shift+J',
-  forwardKey: 'Shift+L',
+  backKey:    'j',
+  forwardKey: 'l',
 };
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {

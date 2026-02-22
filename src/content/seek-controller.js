@@ -9,8 +9,8 @@
   // ── Defaults ──────────────────────────────────────────────────────────────
   var DEFAULT_SETTINGS = {
     seekAmount: 5,
-    backKey:    'j',
-    forwardKey: 'l',
+    backKey:    'Shift+J',
+    forwardKey: 'Shift+L',
   };
 
   // ── Key matching (mirrors seek-logic.js) ─────────────────────────────────
