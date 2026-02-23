@@ -4,7 +4,7 @@
  * Usage: node scripts/screenshots.mjs
  *
  * Requires: Google Chrome installed at the default macOS path.
- * Outputs 1280×800 PNGs to store/screenshots/.
+ *           ImageMagick (magick) for post-crop.
  */
 
 import { execFileSync } from 'child_process';
@@ -12,20 +12,28 @@ import { resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const dir = resolve(fileURLToPath(import.meta.url), '../../store/screenshots');
-const files = ['01-osd', '02-popup', '03-options'];
+const OVERHEAD = 87; // Chrome --headless=new internal overhead in px (measured empirically)
 
-for (const name of files) {
+const dir = resolve(fileURLToPath(import.meta.url), '../../store/screenshots');
+
+const files = [
+  { name: '01-osd',         w: 1280, h: 800 },
+  { name: '02-popup',       w: 1280, h: 800 },
+  { name: '03-options',     w: 1280, h: 800 },
+  { name: '04-small-promo', w: 440,  h: 280 },
+  { name: '05-marquee-promo', w: 1400, h: 560 },
+];
+
+for (const { name, w, h } of files) {
   const out = `${dir}/${name}.png`;
   execFileSync(CHROME, [
     '--headless=new',
     `--screenshot=${out}`,
-    '--window-size=1280,900',   // 900 = 800 content + 87px Chrome internal overhead + buffer
+    `--window-size=${w},${h + OVERHEAD + 13}`,  // +13 extra buffer
     '--force-device-scale-factor=1',
     '--no-sandbox',
     `file://${dir}/${name}.html`,
   ], { stdio: 'pipe' });
-  // Crop to the intended 1280×800 — Chrome captures the full window including overhead
-  execFileSync('magick', [out, '-crop', '1280x800+0+0', '+repage', out]);
+  execFileSync('magick', [out, '-crop', `${w}x${h}+0+0`, '+repage', out]);
   console.log(`${name}.png done`);
 }
