@@ -20,14 +20,14 @@ let osdLabel: HTMLSpanElement | null = null;
 
 function createOsdEl(): HTMLDivElement {
   const el = document.createElement('div');
-  el.className = 'yttv-seek-osd';
+  el.className = 'smart-seek-osd';
   el.innerHTML =
-    '<div class="yttv-seek-osd__content">'
-    + '<div class="yttv-seek-osd__ring">'
+    '<div class="smart-seek-osd__content">'
+    + '<div class="smart-seek-osd__ring">'
     + '<svg viewBox="0 0 24 24" aria-hidden="true">'
     + '<path d="' + ARROW_PATH + '"/>'
     + '</svg>'
-    + '<span class="yttv-seek-osd__label"></span>'
+    + '<span class="smart-seek-osd__label"></span>'
     + '</div>'
     + '</div>';
   document.body.appendChild(el);
@@ -37,16 +37,16 @@ function createOsdEl(): HTMLDivElement {
 function showOsd(direction: 'forward' | 'back', seconds: number): void {
   if (!osdEl) {
     osdEl    = createOsdEl();
-    osdLabel = osdEl.querySelector<HTMLSpanElement>('.yttv-seek-osd__label');
+    osdLabel = osdEl.querySelector<HTMLSpanElement>('.smart-seek-osd__label');
   }
 
   osdLabel!.textContent = formatSeekLabel(seconds);
-  osdEl.classList.toggle('yttv-seek-osd--forward', direction === 'forward');
+  osdEl.classList.toggle('smart-seek-osd--forward', direction === 'forward');
 
   // Restart the keyframe animation on every press via forced reflow.
-  osdEl.classList.remove('yttv-seek-osd--visible');
+  osdEl.classList.remove('smart-seek-osd--visible');
   void osdEl.offsetWidth;
-  osdEl.classList.add('yttv-seek-osd--visible');
+  osdEl.classList.add('smart-seek-osd--visible');
 }
 
 // ── Hardcoded bindings (always active, regardless of user settings) ───────

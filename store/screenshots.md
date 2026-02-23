@@ -63,8 +63,8 @@ Show the full settings page.
 - YouTube TV's dark UI makes the OSD and extension UI contrast well — no extra
   preparation needed.
 - If capturing the OSD is tricky, open DevTools → Elements, find the
-  `.yttv-seek-osd` element, and manually add the `yttv-seek-osd--visible` and
-  `yttv-seek-osd--forward` classes to freeze it in the visible state.
+  `.smart-seek-osd` element, and manually add the `smart-seek-osd--visible` and
+  `smart-seek-osd--forward` classes to freeze it in the visible state.
 
 ---
 

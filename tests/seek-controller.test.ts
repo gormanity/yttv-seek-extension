@@ -204,25 +204,25 @@ describe('seek-controller', () => {
     it('creates an OSD element in the document body on first seek', () => {
       makeVideo();
       fireKey('L', { shiftKey: true });
-      expect(document.querySelector('.yttv-seek-osd')).not.toBeNull();
+      expect(document.querySelector('.smart-seek-osd')).not.toBeNull();
     });
 
     it('applies the --forward modifier class on a forward seek', () => {
       makeVideo();
       fireKey('L', { shiftKey: true });
-      expect(document.querySelector('.yttv-seek-osd')!.classList.contains('yttv-seek-osd--forward')).toBe(true);
+      expect(document.querySelector('.smart-seek-osd')!.classList.contains('smart-seek-osd--forward')).toBe(true);
     });
 
     it('removes the --forward modifier class on a backward seek', () => {
       makeVideo();
       fireKey('J', { shiftKey: true });
-      expect(document.querySelector('.yttv-seek-osd')!.classList.contains('yttv-seek-osd--forward')).toBe(false);
+      expect(document.querySelector('.smart-seek-osd')!.classList.contains('smart-seek-osd--forward')).toBe(false);
     });
 
     it('displays the current seek amount in the label', () => {
       makeVideo();
       fireKey('L', { shiftKey: true });
-      expect(document.querySelector('.yttv-seek-osd__label')!.textContent).toBe('5');
+      expect(document.querySelector('.smart-seek-osd__label')!.textContent).toBe('5');
     });
   });
 
@@ -263,7 +263,7 @@ describe('seek-controller', () => {
       onChangedCallback({ seekAmount: { newValue: 10 } }, 'sync');
       makeVideo({ currentTime: 20 });
       fireKey('L', { shiftKey: true });
-      expect(document.querySelector('.yttv-seek-osd__label')!.textContent).toBe('10');
+      expect(document.querySelector('.smart-seek-osd__label')!.textContent).toBe('10');
     });
 
     it('ignores changes from non-sync storage areas', () => {

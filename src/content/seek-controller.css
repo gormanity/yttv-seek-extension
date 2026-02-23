@@ -1,6 +1,6 @@
 /* YTTV Seek — on-screen display overlay */
 
-.yttv-seek-osd {
+.smart-seek-osd {
   /* Centred over the viewport; transform only used for positioning */
   position: fixed;
   top: 50%;
@@ -12,19 +12,19 @@
 
 /* Inner wrapper carries the animation so `transform: translate` above is
    never overwritten by the keyframe. */
-.yttv-seek-osd__content {
+.smart-seek-osd__content {
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
 }
 
-.yttv-seek-osd--visible .yttv-seek-osd__content {
-  animation: yttv-seek-show 0.9s ease-out forwards;
+.smart-seek-osd--visible .smart-seek-osd__content {
+  animation: smart-seek-show 0.9s ease-out forwards;
 }
 
 /* Continuous grow from scale(0.7) → scale(1.3); opacity fades in then out */
-@keyframes yttv-seek-show {
+@keyframes smart-seek-show {
   0%   { opacity: 0; transform: scale(0.7); }
   20%  { opacity: 1; }
   80%  { opacity: 1; }
@@ -32,14 +32,14 @@
 }
 
 /* Icon ring: dark circle via padding, matching .player-animation-background */
-.yttv-seek-osd__ring {
+.smart-seek-osd__ring {
   position: relative;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 50%;
   padding: 20px;
 }
 
-.yttv-seek-osd__ring svg {
+.smart-seek-osd__ring svg {
   width: 48px;
   height: 48px;
   fill: #fff;
@@ -47,12 +47,12 @@
 }
 
 /* Mirror the arrow for the forward direction */
-.yttv-seek-osd--forward .yttv-seek-osd__ring svg {
+.smart-seek-osd--forward .smart-seek-osd__ring svg {
   transform: scaleX(-1);
 }
 
 /* Seek amount label, centred inside the ring */
-.yttv-seek-osd__label {
+.smart-seek-osd__label {
   position: absolute;
   inset: 0;
   display: flex;
