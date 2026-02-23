@@ -20,7 +20,7 @@ for (const name of files) {
   execFileSync(CHROME, [
     '--headless=new',
     `--screenshot=${out}`,
-    '--window-size=1280,870',   // 870 = 800 content + ~70px Chrome internal overhead
+    '--window-size=1280,900',   // 900 = 800 content + 87px Chrome internal overhead + buffer
     '--force-device-scale-factor=1',
     '--no-sandbox',
     `file://${dir}/${name}.html`,
