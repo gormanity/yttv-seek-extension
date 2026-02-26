@@ -1,8 +1,10 @@
 # <img src="icons/icon-inline.svg" width="28" alt=""> Smart Seek for YouTube TV
 
-A Chrome, Edge, Firefox, and Safari extension that adds configurable seek controls to [YouTube TV](https://tv.youtube.com).
+A Chrome, Edge, Firefox, and Safari extension that adds configurable seek
+controls to [YouTube TV](https://tv.youtube.com).
 
-YouTube TV's built-in keyboard shortcuts only jump 15 seconds at a time. Smart Seek lets you jump by any amount you choose — 5 seconds by default.
+YouTube TV's built-in keyboard shortcuts only jump 15 seconds at a time. Smart
+Seek lets you jump by any amount you choose — 5 seconds by default.
 
 <img src="store/screenshots/01-osd.png" alt="Smart Seek seek indicator on YouTube TV" width="640">
 
@@ -10,26 +12,29 @@ YouTube TV's built-in keyboard shortcuts only jump 15 seconds at a time. Smart S
 
 ## Key bindings
 
-| Action        | Configurable default | Always active       |
-|---------------|----------------------|---------------------|
-| Seek backward | `Shift+J`            | `Shift+←`           |
-| Seek forward  | `Shift+L`            | `Shift+→`           |
+| Action        | Configurable default | Always active |
+| ------------- | -------------------- | ------------- |
+| Seek backward | `Shift+J`            | `Shift+←`     |
+| Seek forward  | `Shift+L`            | `Shift+→`     |
 
-The configurable bindings can be changed in the options page. The `Shift+Arrow` bindings are always active regardless of your settings.
+The configurable bindings can be changed in the options page. The `Shift+Arrow`
+bindings are always active regardless of your settings.
 
 ---
 
 ## Configuration
 
-**Popup** — Click the extension icon for a quick seek-amount adjustment (+/− 0.5 s per click).
+**Popup** — Click the extension icon for a quick seek-amount adjustment (+/− 0.5
+s per click).
 
-**Options page** — Right-click the extension icon → *Options* (or open it from the popup) for full control:
+**Options page** — Right-click the extension icon → _Options_ (or open it from
+the popup) for full control:
 
-| Setting       | Default   | Description                       |
-|---------------|-----------|-----------------------------------|
+| Setting       | Default   | Description                               |
+| ------------- | --------- | ----------------------------------------- |
 | Seek amount   | `5`       | Seconds to seek per key press (0.1 – 300) |
-| Seek backward | `Shift+J` | Configurable hotkey               |
-| Seek forward  | `Shift+L` | Configurable hotkey               |
+| Seek backward | `Shift+J` | Configurable hotkey                       |
+| Seek forward  | `Shift+L` | Configurable hotkey                       |
 
 Settings sync across devices via `chrome.storage.sync`.
 
@@ -37,7 +42,9 @@ Settings sync across devices via `chrome.storage.sync`.
 
 ## Installation
 
-Download the latest build from [GitHub Releases](https://github.com/gormanity/smart-seek-extension/releases), or [build from source](#build) if you prefer.
+Download the latest build from
+[GitHub Releases](https://github.com/gormanity/smart-seek-extension/releases),
+or [build from source](#build) if you prefer.
 
 <details>
 <summary>Chrome</summary>
@@ -64,9 +71,11 @@ Download the latest build from [GitHub Releases](https://github.com/gormanity/sm
 
 1. Download `smart-seek-{version}-firefox.zip` and unzip it
 2. Go to `about:debugging#/runtime/this-firefox`
-3. Click **Load Temporary Add-on** → select `manifest.json` in the unzipped folder
+3. Click **Load Temporary Add-on** → select `manifest.json` in the unzipped
+   folder
 
-> **Note:** Temporary add-ons in Firefox are removed when the browser closes. For a persistent install, build a signed `.xpi` via `make pack`.
+> **Note:** Temporary add-ons in Firefox are removed when the browser closes.
+> For a persistent install, build a signed `.xpi` via `make pack`.
 
 </details>
 
@@ -74,12 +83,18 @@ Download the latest build from [GitHub Releases](https://github.com/gormanity/sm
 <summary>Safari (macOS)</summary>
 
 1. Download `smart-seek-{version}-safari-macos.zip` and unzip it
-2. Right-click **Smart Seek for YouTube TV.app** → **Open** to bypass Gatekeeper (required once for unsigned apps; alternatively run `xattr -dr com.apple.quarantine "Smart Seek for YouTube TV.app"`)
-3. In Safari: **Settings → Advanced** → enable **Show features for web developers**
-4. In the **Develop** menu: enable **Allow Unsigned Extensions** (requires your password)
-5. The app window prompts you to enable the extension — go to **Safari → Settings → Extensions** and check **Smart Seek for YouTube TV**
+2. Right-click **Smart Seek for YouTube TV.app** → **Open** to bypass Gatekeeper
+   (required once for unsigned apps; alternatively run
+   `xattr -dr com.apple.quarantine "Smart Seek for YouTube TV.app"`)
+3. In Safari: **Settings → Advanced** → enable **Show features for web
+   developers**
+4. In the **Develop** menu: enable **Allow Unsigned Extensions** (requires your
+   password)
+5. The app window prompts you to enable the extension — go to **Safari →
+   Settings → Extensions** and check **Smart Seek for YouTube TV**
 
-> **Note:** "Allow Unsigned Extensions" resets every time Safari restarts and must be re-enabled.
+> **Note:** "Allow Unsigned Extensions" resets every time Safari restarts and
+> must be re-enabled.
 
 </details>
 

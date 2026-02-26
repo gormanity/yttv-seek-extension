@@ -1,4 +1,4 @@
-.PHONY: all build typecheck lint test check pack safari clean watch
+.PHONY: all build typecheck lint format format-check test check pack safari clean watch
 
 all: build
 
@@ -11,11 +11,17 @@ typecheck:
 lint:
 	npm run lint
 
+format:
+	npm run format
+
+format-check:
+	npm run format:check
+
 test:
 	npm test
 
-## typecheck + lint + test — full local check before committing
-check: typecheck lint test
+## typecheck + lint + format-check + test — full local check before committing
+check: typecheck lint format-check test
 
 pack:
 	npm run pack
